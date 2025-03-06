@@ -44,3 +44,18 @@ input[type='radio']:checked + label{
 .tile{
     stroke-width: 1px;
 }
+
+#tooltip{
+    width: 160px;
+    height: auto;
+    background-color: rgba(199, 197, 197, 0.715);
+    text-align: center;
+    padding: 5px;
+    position: absolute;
+}
+
+#tooltip > h6{
+    margin: 0;
+   
+    margin-bottom: 1px;
+}
