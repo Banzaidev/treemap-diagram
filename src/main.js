@@ -2,20 +2,18 @@ import './style.css'
 import * as d3 from "d3"
 
 document.querySelector('#app').innerHTML = `
-  <div>
-    <div id='dataSelector'>
-      <input type="radio" checked name="data-selector" id="video-game-data">
-      <label for="video-game-data">Video Game Data </label>
-      <input type="radio" name="data-selector" id="movie-data-set">
-      <label for="movie-data-set">Movie Data Set</label>
-      <input type="radio" name="data-selector" id="kickstarter-data-set">
-      <label for="kickstarter-data-set">Kickstarter Data Set</label>
-    </div>
-
-    <h1 id='title'></h1>
-    <h5 id='description'></h5>
-    <div id='graphLegend'></div>
+  <div id='dataSelector'>
+    <input type="radio" checked name="data-selector" id="video-game-data">
+    <label for="video-game-data">Video Game Data </label>
+    <input type="radio" name="data-selector" id="movie-data-set">
+    <label for="movie-data-set">Movie Data Set</label>
+    <input type="radio" name="data-selector" id="kickstarter-data-set">
+    <label for="kickstarter-data-set">Kickstarter Data Set</label>
   </div>
+
+  <h1 id='title'></h1>
+  <h5 id='description'></h5>
+  <div id='graphLegend'></div>
 `
 
 const videoGameData = await d3.json('https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/video-game-sales-data.json').then(data => data)
@@ -128,8 +126,6 @@ append('svg')
 setTreemapTitleDescription(getTitleDescriptionData('video-game-data')[2],getTitleDescriptionData('video-game-data')[0], getTitleDescriptionData('video-game-data')[1] )
 //deafult checked radio button
 
-
-
 d3.select('#graphLegend')
 .append('svg')
 .attr('id','legend')
@@ -138,6 +134,61 @@ d3.select('#graphLegend')
 
 //deafult legend
 setLegend(getLegendData(getTitleDescriptionData('video-game-data')[2]))
+
+d3.select('#app')
+.append('div')
+.attr('id','tooltip')
+
+const tooltip = d3.select('#tooltip')
+
+
+tooltip.property('hidden',true)
+
+
+tooltip.append('h6')
+.attr('id','data-name')
+
+tooltip.append('h6')
+.attr('id','data-value')
+
+tooltip.append('h6')
+.attr('id','data-category')
+
+
+function changeTooltip(event,d){
+  tooltip.property('hidden',false)
+  const clientX = event.pageX
+  const clientY = event.pageY
+  const name = d.data.name;
+  const category = d.data.category;
+  const value = d.data.value;
+
+  tooltip.attr('data-value',value)
+  d3.select('#data-name')
+  .html(`Name: ${name}`)
+
+  d3.select('#data-category')
+  .html(`Category: ${category}`)
+  
+  d3.select('#data-value')
+  .html(`Value: ${value}`)
+
+  tooltip.style('left',`${clientX+40}px`)
+  tooltip.style('position','absolute')
+  tooltip.style('top',`${clientY+40}px`)
+}
+
+//change tooltip for deafult 
+d3.selectAll('#graph > g')
+.on('mouseover',(e,d)=>{
+  changeTooltip(e,d)
+})
+
+d3.selectAll('#graph > g')
+.on('mouseout',(e)=>{
+  tooltip.property('hidden',true)
+})
+
 
 d3.selectAll('input')
 .on('change',(e)=>{
@@ -155,6 +206,19 @@ d3.selectAll('input')
   const legendData = getLegendData(data)
   //set Legend
   setLegend(legendData)
-  
+
+  /* The event listener needs to be reattached because the DOM is reloaded every time a radio button is clicked */
+
+  d3.selectAll('#graph > g')
+  .on('mouseover',(e,d)=>{
+    changeTooltip(e,d)
+  })
+
+
+  d3.selectAll('#graph > g')
+  .on('mouseout',(e)=>{
+    tooltip.property('hidden',true)
+  })
 
 })
+
