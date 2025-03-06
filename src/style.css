@@ -4,6 +4,7 @@
     box-sizing: border-box;
     font-family: "Open Sans", sans-serif;
 }
+
 #title{
     text-align: center;
 }
@@ -58,4 +59,25 @@ input[type='radio']:checked + label{
     margin: 0;
    
     margin-bottom: 1px;
+}
+
+#author{
+    margin: 10px;
+    text-align: center;
+}
+
+#author>a{
+    text-decoration: none;
+    
+}
+
+#author>a:link{
+    color: black;
+}
+
+#author>a:visited{
+    color: black;
+}
+#author>a:hover{
+    color: red;
 }

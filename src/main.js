@@ -13,6 +13,7 @@ document.querySelector('#app').innerHTML = `
 
   <h1 id='title'></h1>
   <h5 id='description'></h5>
+  <p id='author'>By <a href='https://github.com/Banzaidev' target='__blank'>Banzaidev</a></p>
   <div id='graphLegend'></div>
 `
 
@@ -26,7 +27,7 @@ const titlesDescriptions = [{'Video Game Sales':'Top 100 Most Sold Video Games G
   {'Kickstarter Pledges':'Top 100 Most Pledged Kickstarter Campaigns Grouped By Category'}]
 
 const graphLegendSize = {
-  graphWidth: 960,
+  graphWidth: 1000,
   graphHeight: 570,
   legendWidth: 500,
   legendHeight: 300
